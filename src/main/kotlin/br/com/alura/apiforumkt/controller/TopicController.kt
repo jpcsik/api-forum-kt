@@ -3,6 +3,7 @@ package br.com.alura.apiforumkt.controller
 import br.com.alura.apiforumkt.dto.NewTopicRequest
 import br.com.alura.apiforumkt.service.TopicService
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/topics")
@@ -19,7 +20,7 @@ class TopicController(private val service: TopicService) {
     }
 
     @PostMapping
-    fun create(@RequestBody topicDto: NewTopicRequest) {
+    fun create(@RequestBody @Valid topicDto: NewTopicRequest) {
         service.create(topicDto)
     }
 
