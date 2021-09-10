@@ -45,13 +45,13 @@ class TopicService(
 
     }
 
-    fun update(id: Long, dto: UpdateTopicRequest): Topic {
+    fun update(id: Long, dto: UpdateTopicRequest): TopicResponse {
 
         topicRepository.findById(id).let {
             if (it.isPresent) {
                 it.get().title = dto.title
                 it.get().message = dto.message
-                return it.get()
+                return TopicResponse(it.get())
             } else throw NotFoundException("Topic not found")
         }
 
