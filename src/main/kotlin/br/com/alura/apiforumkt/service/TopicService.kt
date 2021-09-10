@@ -1,6 +1,7 @@
 package br.com.alura.apiforumkt.service
 
 import br.com.alura.apiforumkt.dto.NewTopicRequest
+import br.com.alura.apiforumkt.dto.TopicResponse
 import br.com.alura.apiforumkt.dto.UpdateTopicRequest
 import br.com.alura.apiforumkt.exception.NotFoundException
 import br.com.alura.apiforumkt.model.Topic
@@ -17,8 +18,8 @@ class TopicService(
     private val userRepository: UserRepository
 ) {
 
-    fun list(): List<Topic> {
-        return topicRepository.findAll()
+    fun list(): List<TopicResponse> {
+        return topicRepository.findAll().map { TopicResponse(it) }
     }
 
     fun findById(id: Long): Topic {
