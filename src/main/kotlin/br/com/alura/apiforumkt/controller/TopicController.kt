@@ -25,14 +25,14 @@ class TopicController(private val service: TopicService) {
     }
 
     @PostMapping
-    fun create(@RequestBody @Valid topicDto: NewTopicRequest): ResponseEntity<Any> {
-        service.create(topicDto)
-        return ResponseEntity.created(URI.create("/topic/${Random.nextInt()}")).build()
+    fun create(@RequestBody @Valid dto: NewTopicRequest): ResponseEntity<Any> {
+        val newTopic = service.create(dto)
+        return ResponseEntity.created(URI.create("/topic/${newTopic.id}")).build()
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody @Valid topicDto: UpdateTopicRequest): ResponseEntity<Any>{
-        return ResponseEntity.ok(service.update(id, topicDto))
+    fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdateTopicRequest): ResponseEntity<Any>{
+        return ResponseEntity.ok(service.update(id, dto))
     }
 
     @DeleteMapping("/{id}")

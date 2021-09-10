@@ -1,5 +1,11 @@
 package br.com.alura.apiforumkt.dto
 
+import br.com.alura.apiforumkt.exception.NotFoundException
+import br.com.alura.apiforumkt.model.Course
+import br.com.alura.apiforumkt.model.Topic
+import br.com.alura.apiforumkt.model.User
+import br.com.alura.apiforumkt.repository.CourseRepository
+import br.com.alura.apiforumkt.repository.UserRepository
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -12,9 +18,20 @@ data class NewTopicRequest(
     @field:NotBlank(message = "message must not be blank")
     val message: String,
 
-    @field:NotNull(message = "courseId must not be null")  val
-    courseId: Long,
+    @field:NotNull(message = "courseId must not be null")
+    val courseId: Long,
 
-    @field:NotNull(message = "userId must not be null")  val
-    userId: Long,
-)
+    @field:NotNull(message = "userId must not be null")
+    val userId: Long,
+) {
+
+    fun toModel(course: Course, user: User): Topic {
+        return Topic(
+            title = this.title,
+            message = this.message,
+            course = course,
+            author = user
+        )
+
+    }
+}

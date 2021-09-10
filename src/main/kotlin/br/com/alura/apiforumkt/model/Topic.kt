@@ -9,8 +9,8 @@ data class Topic(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    val title: String,
-    val message: String,
+    var title: String,
+    var message: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne
