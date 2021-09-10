@@ -22,12 +22,12 @@ class TopicService(
         return topicRepository.findAll().map { TopicResponse(it) }
     }
 
-    fun findById(id: Long): Topic {
+    fun findById(id: Long): TopicResponse {
 
-        val topic = topicRepository.findById(id)
+        val possibleTopic = topicRepository.findById(id)
 
         when {
-            topic.isPresent -> return topic.get()
+            possibleTopic.isPresent -> return TopicResponse(possibleTopic.get())
             else -> throw NotFoundException("Topic not found")
         }
 
