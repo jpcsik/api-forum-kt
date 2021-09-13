@@ -7,15 +7,14 @@ import br.com.alura.apiforumkt.exception.NotFoundException
 import br.com.alura.apiforumkt.model.Topic
 import br.com.alura.apiforumkt.repository.CourseRepository
 import br.com.alura.apiforumkt.repository.TopicRepository
-import br.com.alura.apiforumkt.repository.UserRepository
+import br.com.alura.apiforumkt.repository.AuthorRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class TopicService(
     private val topicRepository: TopicRepository,
     private val courseRepository: CourseRepository,
-    private val userRepository: UserRepository
+    private val authorRepository: AuthorRepository
 ) {
 
     fun list(): List<TopicResponse> {
@@ -38,7 +37,7 @@ class TopicService(
         val course = if (courseRepository.findById(dto.courseId).isPresent) courseRepository.getById(dto.courseId)
         else throw NotFoundException("Course not found")
 
-        val author = if (userRepository.findById(dto.userId).isPresent) userRepository.getById(dto.userId)
+        val author = if (authorRepository.findById(dto.userId).isPresent) authorRepository.getById(dto.userId)
         else throw NotFoundException("User not found")
 
         return topicRepository.save(dto.toModel(course, author))

@@ -17,7 +17,7 @@ data class Topic(
     val course: Course,
 
     @ManyToOne
-    val author: User,
+    val author: Author,
 
     @Enumerated(value = EnumType.STRING)
     val status: TopicStatus = TopicStatus.UNANSWERED,

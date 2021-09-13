@@ -1,11 +1,8 @@
 package br.com.alura.apiforumkt.dto
 
-import br.com.alura.apiforumkt.exception.NotFoundException
 import br.com.alura.apiforumkt.model.Course
 import br.com.alura.apiforumkt.model.Topic
-import br.com.alura.apiforumkt.model.User
-import br.com.alura.apiforumkt.repository.CourseRepository
-import br.com.alura.apiforumkt.repository.UserRepository
+import br.com.alura.apiforumkt.model.Author
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -25,7 +22,7 @@ data class NewTopicRequest(
     val userId: Long,
 ) {
 
-    fun toModel(course: Course, user: User): Topic {
+    fun toModel(course: Course, user: Author): Topic {
         return Topic(
             title = this.title,
             message = this.message,
