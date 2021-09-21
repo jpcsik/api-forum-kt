@@ -8,6 +8,8 @@ import br.com.alura.apiforumkt.model.Topic
 import br.com.alura.apiforumkt.repository.CourseRepository
 import br.com.alura.apiforumkt.repository.TopicRepository
 import br.com.alura.apiforumkt.repository.AuthorRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,12 +19,12 @@ class TopicService(
     private val authorRepository: AuthorRepository
 ) {
 
-    fun list(courseName: String?): List<TopicResponse> {
+    fun list(courseName: String?, pagination: Pageable): Page<TopicResponse> {
 
         return if (courseName != null) {
-            topicRepository.findAllByCourseName(courseName).map { TopicResponse(it) }
+            topicRepository.findAllByCourseName(courseName, pagination).map { TopicResponse(it) }
         } else {
-            topicRepository.findAll().map { TopicResponse(it) }
+            topicRepository.findAll(pagination).map { TopicResponse(it) }
         }
 
     }

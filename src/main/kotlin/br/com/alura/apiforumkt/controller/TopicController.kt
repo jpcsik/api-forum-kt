@@ -3,6 +3,8 @@ package br.com.alura.apiforumkt.controller
 import br.com.alura.apiforumkt.dto.NewTopicRequest
 import br.com.alura.apiforumkt.dto.UpdateTopicRequest
 import br.com.alura.apiforumkt.service.TopicService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -15,8 +17,11 @@ import javax.validation.Valid
 class TopicController(private val service: TopicService) {
 
     @GetMapping
-    fun list(@RequestParam(required = false) courseName: String?): ResponseEntity<Any> {
-        return ResponseEntity.ok(service.list(courseName))
+    fun list(
+        @RequestParam(required = false) courseName: String?,
+        @PageableDefault(size = 10) pagination: Pageable
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(service.list(courseName, pagination))
     }
 
     @GetMapping("/{id}")
@@ -33,7 +38,7 @@ class TopicController(private val service: TopicService) {
 
     @PutMapping("/{id}")
     @Transactional
-    fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdateTopicRequest): ResponseEntity<Any>{
+    fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdateTopicRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(service.update(id, dto))
     }
 
