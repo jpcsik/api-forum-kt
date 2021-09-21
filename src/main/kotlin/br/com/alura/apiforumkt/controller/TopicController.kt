@@ -15,8 +15,8 @@ import javax.validation.Valid
 class TopicController(private val service: TopicService) {
 
     @GetMapping
-    fun list(): ResponseEntity<Any> {
-        return ResponseEntity.ok(service.list())
+    fun list(@RequestParam(required = false) courseName: String?): ResponseEntity<Any> {
+        return ResponseEntity.ok(service.list(courseName))
     }
 
     @GetMapping("/{id}")

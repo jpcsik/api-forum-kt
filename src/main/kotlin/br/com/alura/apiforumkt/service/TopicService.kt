@@ -17,8 +17,14 @@ class TopicService(
     private val authorRepository: AuthorRepository
 ) {
 
-    fun list(): List<TopicResponse> {
-        return topicRepository.findAll().map { TopicResponse(it) }
+    fun list(courseName: String?): List<TopicResponse> {
+
+        return if (courseName != null) {
+            topicRepository.findAllByCourseName(courseName).map { TopicResponse(it) }
+        } else {
+            topicRepository.findAll().map { TopicResponse(it) }
+        }
+
     }
 
     fun findById(id: Long): TopicResponse {
