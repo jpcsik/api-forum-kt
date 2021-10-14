@@ -3,6 +3,8 @@ package br.com.alura.apiforumkt.controller
 import br.com.alura.apiforumkt.dto.NewTopicRequest
 import br.com.alura.apiforumkt.dto.UpdateTopicRequest
 import br.com.alura.apiforumkt.service.TopicService
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -17,6 +19,7 @@ import javax.validation.Valid
 class TopicController(private val service: TopicService) {
 
     @GetMapping
+    @Cacheable("allTopics")
     fun list(
         @RequestParam(required = false) courseName: String?,
         @PageableDefault(size = 10) pagination: Pageable
@@ -31,6 +34,7 @@ class TopicController(private val service: TopicService) {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = ["allTopics"], allEntries = true)
     fun create(@RequestBody @Valid dto: NewTopicRequest): ResponseEntity<Any> {
         val newTopic = service.create(dto)
         return ResponseEntity.created(URI.create("/topic/${newTopic.id}")).build()
@@ -38,6 +42,7 @@ class TopicController(private val service: TopicService) {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = ["allTopics"], allEntries = true)
     fun update(@PathVariable id: Long, @RequestBody @Valid dto: UpdateTopicRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(service.update(id, dto))
     }
@@ -45,6 +50,7 @@ class TopicController(private val service: TopicService) {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(value = ["allTopics"], allEntries = true)
     fun delete(@PathVariable id: Long) {
         service.delete(id)
     }
